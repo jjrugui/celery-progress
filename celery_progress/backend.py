@@ -3,7 +3,7 @@ from decimal import Decimal
 
 from celery.result import AsyncResult, allow_join_result
 
-from .models import ProgressPersistant
+from .models import ProgressPersistent
 
 
 PROGRESS_STATE = 'PROGRESS'
@@ -65,10 +65,10 @@ class ProgressRecorder(AbstractProgressRecorder):
             }
         )
 
-class ProgressPersistantRecorder(ProgressRecorder):
+class ProgressPersistentRecorder(ProgressRecorder):
     def __init__(self, task, user):
         super().__init__(task)
-        ProgressPersistant.objects.create(task_id=task.request.id, completed=False, user=user)
+        ProgressPersistent.objects.create(task_id=task.request.id, completed=False, user=user)
 
     def set_progress(self, current, total, description=""):
         super().set_progress(current, total, description)
